@@ -2,8 +2,9 @@
 
 namespace Appstract\Crud;
 
-use Appstract\Crud\Console\ModelMakeCommand;
 use Illuminate\Support\ServiceProvider;
+use Appstract\Crud\Console\ModelMakeCommand;
+use Appstract\Crud\Console\ControllerMakeCommand;
 
 class CrudServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,7 @@ class CrudServiceProvider extends ServiceProvider
 
             $this->commands([
                 ModelMakeCommand::class,
+                ControllerMakeCommand::class,
             ]);
         }
     }

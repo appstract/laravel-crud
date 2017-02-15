@@ -1,0 +1,104 @@
+<?php
+
+namespace DummyNamespace;
+
+use DummyFullModelClass;
+use Illuminate\Http\Request;
+use DummyRootNamespaceHttp\Controllers\Controller;
+
+class DummyClass extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return view('{{viewPath}}{{viewName}}.index', [
+            {{crudName}} => DummyModelClass::all();
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('{{viewPath}}{{viewName}}.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        DummyModelClass::create($request->all());
+
+        $request->session()->flash('message', '{{modelName}} created.');
+
+        return redirect('{{routeGroup}}{{viewName}}');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \DummyFullModelClass  $DummyModelVariable
+     * @return \Illuminate\Http\Response
+     */
+    public function show(DummyModelClass $DummyModelVariable)
+    {
+        return view('{{viewPath}}{{viewName}}.show', [
+            {{crudName}} => $DummyModelVariable
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \DummyFullModelClass  $DummyModelVariable
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(DummyModelClass $DummyModelVariable)
+    {
+        return view('{{viewPath}}{{viewName}}.edit', [
+            ${{crudNameSingular}} => {{modelName}}::findOrFail($id)
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \DummyFullModelClass  $DummyModelVariable
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, DummyModelClass $DummyModelVariable)
+    {
+        $DummyModelVariable->update($request->all());
+
+        $request->session()->flash('message', '{{modelName}} updated.');
+
+        return redirect('{{routeGroup}}{{viewName}}');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \DummyFullModelClass  $DummyModelVariable
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(DummyModelClass $DummyModelVariable)
+    {
+        $DummyModelVariable->destroy();
+
+        Session::flash('message', '{{modelName}} deleted.');
+
+        return redirect('{{routeGroup}}{{viewName}}');
+    }
+}

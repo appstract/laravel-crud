@@ -4,7 +4,7 @@ namespace Appstract\Crud\Console;
 
 use Symfony\Component\Console\Input\InputOption;
 
-class ModelMakeCommand extends GeneratorCommand
+class ModelMakeCommand extends MakeCommand
 {
     /**
      * The console command name.
@@ -12,8 +12,9 @@ class ModelMakeCommand extends GeneratorCommand
      * @var string
      */
     protected $signature = 'crud:model
-                            {name : The name of the model.}
-                            {--table= : The name of the table.}
+                            {name : Name of the class.}
+                            {--p|prompt : Run in prompt}
+                            {--t|table= : The name of the table.}
                             {--fillable= : The names of the fillable columns.}
                             {--relations= : The relations for the model}
                             {--primary=id : The name of the primary key.}';
@@ -33,16 +34,6 @@ class ModelMakeCommand extends GeneratorCommand
     protected $type = 'Model';
 
     /**
-     * Execute the console command.
-     *
-     * @return void
-     */
-    public function fire()
-    {
-        parent::fire();
-    }
-
-    /**
      * Build the class with the given name.
      *
      * @param  string  $name
@@ -52,33 +43,20 @@ class ModelMakeCommand extends GeneratorCommand
     {
         $stub = $this->files->get($this->getStub());
 
-        $stub = $this->replacePlaceholders($stub);
-
-        return $this->replaceNamespace($stub, $name)->replaceClass($stub, $name);
-    }
-
-    /**
-     * Replace all placeholders.
-     *
-     * @param  [type] &$stub [description]
-     * @return [type]        [description]
-     */
-    protected function replacePlaceholders(&$stub)
-    {
-        $this->replacers = [
-            '{{table}}'      => $this->option('table') ?: strtolower(str_plural($this->argument('name'))),
+        $this->replace = [
+            '{{table}}'      => $this->getTableName(),
             '{{primaryKey}}' => $this->option('primary'),
             '{{fillable}}'   => $this->parseFillable(),
             '{{relations}}'  => $this->parseRelations()
         ];
 
-        return parent::replacePlaceholders($stub);
+        return parent::buildClass($name);
     }
 
     /**
      * Parse fillable.
      *
-     * @return [type] [description]
+     * @return string
      */
     protected function parseFillable()
     {
@@ -88,49 +66,60 @@ class ModelMakeCommand extends GeneratorCommand
 
         $explode = explode(';', $this->option('fillable'));
 
-        return "['".implode("', '", $explode)."']";
+        return $this->wrapWithBrackets(implode("', '", $explode));
     }
 
     /**
      * Parse relations.
      *
-     * @return [type] [description]
+     * @return string
      */
     protected function parseRelations()
     {
         $relations = $this->option('relations') ? explode(';', $this->option('relations')) : [];
 
+        $code = null;
+
         foreach($relations as $relation) {
             $parts = collect(explode('#', $relation));
-            $args  = collect(explode('|', $parts->get(2)));
-            $class = $this->wrapWithQuotes($args->get(0));
+            $args  = collect(explode('|', $parts->last()));
+            $class = $this->wrapWithQuotes($args->first());
             $args  = $this->wrapWithQuotes($args->forget(0)->implode("', '", $args));
-            $name  = $parts->get(0);
+            $name  = $parts->first();
 
-            @$code .= "/**\n     * ".ucfirst($name)." relation.\n     */\n    public function ".$name."()\n    {\n        "."return \$this->".$parts->get(1)."($class".($args ? ", $args" : '').");". "\n    }\n\n";
+            $code .= "/**\n     * ".ucfirst($name)." relation.\n     */\n    public function ".$name."()\n    {\n        "."return \$this->".$parts->get(1)."($class".($args ? ", $args" : '').");". "\n    }\n\n";
         }
 
         return $code;
     }
 
     /**
-     * Get the stub file for the generator.
+     * Get table name.
      *
      * @return string
      */
-    protected function getStub()
+    protected function getTableName()
     {
-        return __DIR__.'/stubs/model.stub';
+        return $this->option('table') ?: strtolower(str_plural($this->argument('name')));
     }
 
     /**
-     * Get the default namespace for the class.
+     * Prompt.
      *
-     * @param  string  $rootNamespace
-     * @return string
+     * @return void
      */
-    protected function getDefaultNamespace($rootNamespace)
+    protected function prompt()
     {
-        return $rootNamespace;
+        $this->info('Creating model for: '.$this->argument('name'));
+
+        $this->setOption('table', $this->ask('Table name', $this->getTableName()));
+
+        $this->setOption('fillable', $this->ask('Fillable', false));
+
+        $this->setOption('relations', $this->ask('Relations', false));
+
+        $this->setOption('primary', $this->ask('Primary key', 'id'));
+
+        parent::prompt();
     }
 }
