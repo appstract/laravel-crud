@@ -105,16 +105,4 @@ class MakeCommand extends GeneratorCommand
             return $this->prompt();
         }
     }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return [
-            ['name', InputArgument::REQUIRED, 'The name of the '.strtolower($this->type).'.'],
-        ];
-    }
 }

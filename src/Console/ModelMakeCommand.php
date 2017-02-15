@@ -41,8 +41,6 @@ class ModelMakeCommand extends MakeCommand
      */
     protected function buildClass($name)
     {
-        $stub = $this->files->get($this->getStub());
-
         $this->replace = [
             '{{table}}'      => $this->getTableName(),
             '{{primaryKey}}' => $this->option('primary'),
