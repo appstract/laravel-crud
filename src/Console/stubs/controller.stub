@@ -15,8 +15,8 @@ class DummyClass extends Controller
      */
     public function index()
     {
-        return view('{{viewPath}}{{viewName}}.index', [
-            {{crudName}} => DummyModelClass::all();
+        return view('{{view}}.index', [
+            '{{modelPlural}}' => DummyModelClass::all()
         ]);
     }
 
@@ -27,7 +27,7 @@ class DummyClass extends Controller
      */
     public function create()
     {
-        return view('{{viewPath}}{{viewName}}.create');
+        return view('{{view}}.create');
     }
 
     /**
@@ -40,9 +40,9 @@ class DummyClass extends Controller
     {
         DummyModelClass::create($request->all());
 
-        $request->session()->flash('message', '{{modelName}} created.');
+        $request->session()->flash('message', 'DummyModelClass created.');
 
-        return redirect('{{routeGroup}}{{viewName}}');
+        return redirect('{{route}}.index');
     }
 
     /**
@@ -53,8 +53,8 @@ class DummyClass extends Controller
      */
     public function show(DummyModelClass $DummyModelVariable)
     {
-        return view('{{viewPath}}{{viewName}}.show', [
-            {{crudName}} => $DummyModelVariable
+        return view('{{view}}.show', [
+            '{{modelSingular}}' => $DummyModelVariable
         ]);
     }
 
@@ -66,8 +66,8 @@ class DummyClass extends Controller
      */
     public function edit(DummyModelClass $DummyModelVariable)
     {
-        return view('{{viewPath}}{{viewName}}.edit', [
-            ${{crudNameSingular}} => {{modelName}}::findOrFail($id)
+        return view('{{view}}.edit', [
+            '{{modelSingular}}' => $DummyModelVariable
         ]);
     }
 
@@ -82,9 +82,9 @@ class DummyClass extends Controller
     {
         $DummyModelVariable->update($request->all());
 
-        $request->session()->flash('message', '{{modelName}} updated.');
+        $request->session()->flash('message', 'DummyModelClass updated.');
 
-        return redirect('{{routeGroup}}{{viewName}}');
+        return redirect('{{route}}.index');
     }
 
     /**
@@ -97,8 +97,8 @@ class DummyClass extends Controller
     {
         $DummyModelVariable->destroy();
 
-        Session::flash('message', '{{modelName}} deleted.');
+        Session::flash('message', 'DummyModelClass deleted.');
 
-        return redirect('{{routeGroup}}{{viewName}}');
+        return redirect('{{route}}.index');
     }
 }

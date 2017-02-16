@@ -103,11 +103,13 @@ class MakeCommand extends GeneratorCommand
      *
      * @return void
      */
-    protected function prompt()
+    protected function prompt($prepend = [])
     {
-        $filled = collect($this->options())->filter(function($value, $key){
+        $array = $this->options() + $prepend;
+
+        $filled = collect($array)->filter(function($value, $key){
             return $value;
-        })->forget('prompt')->prepend($this->argument('name'), 'model')->map(function($value, $key){
+        })->forget('prompt')->map(function($value, $key){
             return ['option' => $key, 'value' => $value];
         });
 

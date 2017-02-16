@@ -12,7 +12,10 @@ class ControllerMakeCommand extends MakeCommand
      *
      * @var string
      */
-    protected $name = 'crud:controller';
+    protected $signature = 'crud:controller
+                            {name : Name of the class.}
+                            {model : Name of the model}
+                            {--p|prompt : Run in prompt}';
 
     /**
      * The console command description.
@@ -40,18 +43,22 @@ class ControllerMakeCommand extends MakeCommand
     {
         $controllerNamespace = $this->getNamespace($name);
 
-        $modelClass = $this->parseModel($this->option('model'));
+        $fullModelClass = $this->parseModel($this->argument('model'));
+
+        $modelClass = class_basename($fullModelClass);
+
+        $modelClassPlural = strtolower(str_plural($modelClass));
 
         $this->replace = [
-            'DummyFullModelClass' => $modelClass,
-            'DummyModelClass'     => class_basename($modelClass),
-            'DummyModelVariable'  => lcfirst(class_basename($modelClass)),
+            'DummyFullModelClass' => $fullModelClass,
+            'DummyModelClass'     => $modelClass,
+            'DummyModelVariable'  => lcfirst($modelClass),
             "use {$controllerNamespace}\Controller;\n" => '',
 
-            '{{table}}'      => $this->getTableName(),
-            '{{primaryKey}}' => $this->option('primary'),
-            '{{fillable}}'   => $this->parseFillable(),
-            '{{relations}}'  => $this->parseRelations()
+            '{{modelPlural}}'   => $modelClassPlural,
+            '{{modelSingular}}' => strtolower($modelClass),
+            '{{view}}'          => $modelClassPlural,
+            '{{route}}'         => $modelClassPlural
         ];
 
         return parent::buildClass($name);
@@ -87,5 +94,20 @@ class ControllerMakeCommand extends MakeCommand
     protected function getDefaultNamespace($rootNamespace)
     {
         return $rootNamespace.'\Http\Controllers';
+    }
+
+    /**
+     * Prompt.
+     *
+     * @return void
+     */
+    protected function prompt($append = [])
+    {
+        $this->info('Creating controller: '.$this->getNameInput());
+
+        parent::prompt([
+            'controller' => $this->argument('name'),
+            'model'      => $this->argument('model')
+        ]);
     }
 }

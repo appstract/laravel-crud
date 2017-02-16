@@ -106,9 +106,9 @@ class ModelMakeCommand extends MakeCommand
      *
      * @return void
      */
-    protected function prompt()
+    protected function prompt($prepend = [])
     {
-        $this->info('Creating model for: '.$this->getNameInput());
+        $this->info('Creating model: '.$this->getNameInput());
 
         $this->setOption('table', $this->ask('Table name', $this->getTableName()));
 
@@ -118,6 +118,8 @@ class ModelMakeCommand extends MakeCommand
 
         $this->setOption('primary', $this->ask('Primary key', $this->getOption('primary', 'id')));
 
-        parent::prompt();
+        parent::prompt([
+            'model' => $this->argument('name')
+        ]);
     }
 }
