@@ -98,7 +98,7 @@ class ModelMakeCommand extends MakeCommand
      */
     protected function getTableName()
     {
-        return $this->option('table') ?: strtolower(str_plural($this->argument('name')));
+        return $this->getOption('table', strtolower(str_plural($this->getNameInput())));
     }
 
     /**
@@ -108,15 +108,15 @@ class ModelMakeCommand extends MakeCommand
      */
     protected function prompt()
     {
-        $this->info('Creating model for: '.$this->argument('name'));
+        $this->info('Creating model for: '.$this->getNameInput());
 
         $this->setOption('table', $this->ask('Table name', $this->getTableName()));
 
-        $this->setOption('fillable', $this->ask('Fillable', false));
+        $this->setOption('fillable', $this->ask('Fillable', $this->getOption('fillable', false)));
 
-        $this->setOption('relations', $this->ask('Relations', false));
+        $this->setOption('relations', $this->ask('Relations', $this->getOption('relations', false)));
 
-        $this->setOption('primary', $this->ask('Primary key', 'id'));
+        $this->setOption('primary', $this->ask('Primary key', $this->getOption('primary', 'id')));
 
         parent::prompt();
     }

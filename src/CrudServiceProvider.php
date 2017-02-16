@@ -14,6 +14,7 @@ class CrudServiceProvider extends ServiceProvider
     public function boot()
     {
         if ($this->app->runningInConsole()) {
+
             $this->publishes([
                 __DIR__.'/../config/crud.php' => config_path('crud.php'),
             ], 'config');
@@ -22,6 +23,7 @@ class CrudServiceProvider extends ServiceProvider
                 ModelMakeCommand::class,
                 ControllerMakeCommand::class,
             ]);
+
         }
     }
 

@@ -76,6 +76,18 @@ class MakeCommand extends GeneratorCommand
     }
 
     /**
+     * Get option with default possibility.
+     *
+     * @param  [type] $option  [description]
+     * @param  [type] $default [description]
+     * @return [type]          [description]
+     */
+    protected function getOption($option, $default = null)
+    {
+        return $this->option($option) ?: $default;
+    }
+
+    /**
      * Set an option.
      *
      * @param [type] $key   [description]
