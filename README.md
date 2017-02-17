@@ -26,10 +26,6 @@ $skeleton = new Appstract\Skeleton();
 echo $skeleton->echoPhrase('Hello, Appstract!');
 ```
 
-## Changelog
-
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
-
 ## Testing
 
 ``` bash
