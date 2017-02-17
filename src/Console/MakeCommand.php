@@ -105,7 +105,7 @@ class MakeCommand extends GeneratorCommand
      */
     protected function prompt($prepend = [])
     {
-        $array = $this->options() + $prepend;
+        $array = $prepend + $this->options();
 
         $filled = collect($array)->filter(function($value, $key){
             return $value;
