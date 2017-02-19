@@ -3,10 +3,11 @@
 namespace Appstract\Crud\Console;
 
 use Illuminate\Support\Composer;
+use Illuminate\Support\Str;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Console\GeneratorCommand;
 
-class MakeCommand extends GeneratorCommand
+class CrudCommand extends GeneratorCommand
 {
     /**
      * [$replace description]
@@ -66,6 +67,27 @@ class MakeCommand extends GeneratorCommand
     }
 
     /**
+     * Get the fully-qualified model class name.
+     *
+     * @param  string  $model
+     * @return string
+     */
+    protected function parseModel($model)
+    {
+        if (preg_match('([^A-Za-z0-9_/\\\\])', $model)) {
+            throw new InvalidArgumentException('Model name contains invalid characters.');
+        }
+
+        $model = trim(str_replace('/', '\\', $model), '\\');
+
+        if (! Str::startsWith($model, $rootNamespace = $this->laravel->getNamespace())) {
+            $model = $rootNamespace.$model;
+        }
+
+        return $model;
+    }
+
+    /**
      * Get the stub file for the generator.
      *
      * @return string
@@ -73,6 +95,16 @@ class MakeCommand extends GeneratorCommand
     protected function getStub()
     {
         return __DIR__.'/stubs/'.strtolower($this->type).'.stub';
+    }
+
+    /**
+     * [getArgument description]
+     * @param  [type] $key [description]
+     * @return [type]           [description]
+     */
+    public function setArgument($key, $value)
+    {
+        $this->input->setArgument($key, $value);
     }
 
     /**

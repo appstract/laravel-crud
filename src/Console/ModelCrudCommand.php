@@ -4,7 +4,7 @@ namespace Appstract\Crud\Console;
 
 use Symfony\Component\Console\Input\InputOption;
 
-class ModelMakeCommand extends MakeCommand
+class ModelCrudCommand extends CrudCommand
 {
     /**
      * The console command name.
@@ -24,7 +24,7 @@ class ModelMakeCommand extends MakeCommand
      *
      * @var string
      */
-    protected $description = 'Create a new CRUD model class';
+    protected $description = 'Create a new CRUD model';
 
     /**
      * The type of class being generated.

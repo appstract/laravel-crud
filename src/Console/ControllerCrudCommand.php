@@ -5,7 +5,7 @@ namespace Appstract\Crud\Console;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
-class ControllerMakeCommand extends MakeCommand
+class ControllerCrudCommand extends CrudCommand
 {
     /**
      * The console command name.
@@ -22,7 +22,7 @@ class ControllerMakeCommand extends MakeCommand
      *
      * @var string
      */
-    protected $description = 'Create a new CRUD controller class';
+    protected $description = 'Create a new CRUD controller';
 
     /**
      * The type of class being generated.
@@ -47,7 +47,7 @@ class ControllerMakeCommand extends MakeCommand
 
         $modelClass = class_basename($fullModelClass);
 
-        $modelClassPlural = strtolower(str_plural($modelClass));
+        $modelPlural = strtolower(str_plural($modelClass));
 
         $this->replace = [
             'DummyFullModelClass' => $fullModelClass,
@@ -55,34 +55,13 @@ class ControllerMakeCommand extends MakeCommand
             'DummyModelVariable'  => lcfirst($modelClass),
             "use {$controllerNamespace}\Controller;\n" => '',
 
-            '{{modelPlural}}'   => $modelClassPlural,
+            '{{modelPlural}}'   => $modelPlural,
             '{{modelSingular}}' => strtolower($modelClass),
-            '{{view}}'          => $modelClassPlural,
-            '{{route}}'         => $modelClassPlural
+            '{{view}}'          => $modelPlural,
+            '{{route}}'         => $modelPlural
         ];
 
         return parent::buildClass($name);
-    }
-
-    /**
-     * Get the fully-qualified model class name.
-     *
-     * @param  string  $model
-     * @return string
-     */
-    protected function parseModel($model)
-    {
-        if (preg_match('([^A-Za-z0-9_/\\\\])', $model)) {
-            throw new InvalidArgumentException('Model name contains invalid characters.');
-        }
-
-        $model = trim(str_replace('/', '\\', $model), '\\');
-
-        if (! Str::startsWith($model, $rootNamespace = $this->laravel->getNamespace())) {
-            $model = $rootNamespace.$model;
-        }
-
-        return $model;
     }
 
     /**
