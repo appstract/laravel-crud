@@ -43,22 +43,18 @@ class ControllerCrudCommand extends CrudCommand
     {
         $controllerNamespace = $this->getNamespace($name);
 
-        $fullModelClass = $this->parseModel($this->argument('model'));
-
-        $modelClass = class_basename($fullModelClass);
-
-        $modelPlural = strtolower(str_plural($modelClass));
+        $model = $this->getModel($name);
 
         $this->replace = [
-            'DummyFullModelClass' => $fullModelClass,
-            'DummyModelClass'     => $modelClass,
-            'DummyModelVariable'  => lcfirst($modelClass),
             "use {$controllerNamespace}\Controller;\n" => '',
 
-            '{{modelPlural}}'   => $modelPlural,
-            '{{modelSingular}}' => strtolower($modelClass),
-            '{{view}}'          => $modelPlural,
-            '{{route}}'         => $modelPlural
+            '{{{fullModelClass}}}' => $model->fullModelClass,
+            '{{{modelClass}}}'     => $model->modelClass,
+            '{{{modelVariable}}}'  => lcfirst($model->modelClass),
+            '{{{modelPlural}}}'    => $model->modelPlural,
+            '{{{modelSingular}}}'  => strtolower($model->modelClass),
+            '{{{view}}}'           => $model->modelPlural,
+            '{{{route}}}'          => $model->modelPlural
         ];
 
         return parent::buildClass($name);

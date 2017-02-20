@@ -13,6 +13,7 @@ class MigrationCrudCommand extends CrudCommand
      */
     protected $signature = 'crud:migration
                             {name : Name of the model.}
+                            {--table= : Table name.}
                             {--p|prompt : Run in prompt}';
 
     /**
@@ -37,11 +38,8 @@ class MigrationCrudCommand extends CrudCommand
      */
     protected function getPath($name)
     {
-        $fullModelClass = $this->parseModel($this->argument('name'));
-        $modelClass     = class_basename($fullModelClass);
-        $modelPlural    = strtolower(str_plural($modelClass));
+        $name = $this->parseTableName($name);
 
-        $name = str_replace($this->laravel->getNamespace(), '', $modelPlural);
         $date = date('Y_m_d_His');
 
         return database_path('/migrations/').$date.'_create_'.$name.'_table.php';
@@ -55,16 +53,28 @@ class MigrationCrudCommand extends CrudCommand
      */
     protected function buildClass($name)
     {
-        $fullModelClass = $this->parseModel($this->argument('name'));
-        $modelClass     = class_basename($fullModelClass);
-        $modelPlural    = strtolower(str_plural($modelClass));
+        $model = $this->getModel($name);
 
         $this->replace = [
-            '{{{table}}}' => $modelPlural,
+            '{{{table}}}' => $this->parseTableName($model->modelPlural),
             '{{{schema}}}' => $this->parseSchema()
         ];
 
         return parent::buildClass($name);
+    }
+
+    /**
+     * [parseTableName description]
+     * @param  [type] $name [description]
+     * @return [type]       [description]
+     */
+    public function parseTableName($name)
+    {
+        $model = $this->getModel($name);
+
+        $table = str_replace($this->laravel->getNamespace(), '', $model->modelPlural);
+
+        return $this->getOption('table', $table);
     }
 
     /**

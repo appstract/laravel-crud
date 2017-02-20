@@ -11,21 +11,21 @@ class DummyClass extends Model
      *
      * @var string
      */
-    protected $table = '{{table}}';
+    protected $table = '{{{table}}}';
 
     /**
      * The primary key for the model.
      *
      * @var string
      */
-    protected $primaryKey = '{{primaryKey}}';
+    protected $primaryKey = '{{{primaryKey}}}';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = {{fillable}};
+    protected $fillable = {{{fillable}}};
 
-    {{relations}}
+    {{{relations}}}
 }

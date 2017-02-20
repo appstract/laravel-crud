@@ -2,7 +2,7 @@
 
 namespace DummyNamespace;
 
-use DummyFullModelClass;
+use {{{fullModelClass}}};
 use Illuminate\Http\Request;
 use DummyRootNamespaceHttp\Controllers\Controller;
 
@@ -15,8 +15,8 @@ class DummyClass extends Controller
      */
     public function index()
     {
-        return view('{{view}}.index', [
-            '{{modelPlural}}' => DummyModelClass::all()
+        return view('{{{view}}}.index', [
+            '{{{modelPlural}}}' => {{{modelClass}}}::all()
         ]);
     }
 
@@ -27,7 +27,7 @@ class DummyClass extends Controller
      */
     public function create()
     {
-        return view('{{view}}.create');
+        return view('{{{view}}}.create');
     }
 
     /**
@@ -38,36 +38,36 @@ class DummyClass extends Controller
      */
     public function store(Request $request)
     {
-        DummyModelClass::create($request->all());
+        {{{modelClass}}}::create($request->all());
 
-        $request->session()->flash('message', 'DummyModelClass created.');
+        $request->session()->flash('message', '{{{modelClass}}} created.');
 
-        return redirect('{{route}}.index');
+        return redirect('{{{route}}}.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \DummyFullModelClass  $DummyModelVariable
+     * @param  \{{{fullModelClass}}}  $modelVariable
      * @return \Illuminate\Http\Response
      */
-    public function show(DummyModelClass $DummyModelVariable)
+    public function show({{{modelClass}}} $modelVariable)
     {
-        return view('{{view}}.show', [
-            '{{modelSingular}}' => $DummyModelVariable
+        return view('{{{view}}}.show', [
+            '{{{modelSingular}}}' => $modelVariable
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \DummyFullModelClass  $DummyModelVariable
+     * @param  \{{{fullModelClass}}}  $modelVariable
      * @return \Illuminate\Http\Response
      */
-    public function edit(DummyModelClass $DummyModelVariable)
+    public function edit({{{modelClass}}} $modelVariable)
     {
-        return view('{{view}}.edit', [
-            '{{modelSingular}}' => $DummyModelVariable
+        return view('{{{view}}}.edit', [
+            '{{{modelSingular}}}' => $modelVariable
         ]);
     }
 
@@ -75,30 +75,30 @@ class DummyClass extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \DummyFullModelClass  $DummyModelVariable
+     * @param  \{{{fullModelClass}}}  $modelVariable
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DummyModelClass $DummyModelVariable)
+    public function update(Request $request, {{{modelClass}}} $modelVariable)
     {
-        $DummyModelVariable->update($request->all());
+        $modelVariable->update($request->all());
 
-        $request->session()->flash('message', 'DummyModelClass updated.');
+        $request->session()->flash('message', '{{{modelClass}}} updated.');
 
-        return redirect('{{route}}.index');
+        return redirect('{{{route}}}.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \DummyFullModelClass  $DummyModelVariable
+     * @param  \{{{fullModelClass}}}  $modelVariable
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DummyModelClass $DummyModelVariable)
+    public function destroy({{{modelClass}}} $modelVariable)
     {
-        $DummyModelVariable->destroy();
+        $modelVariable->destroy();
 
-        Session::flash('message', 'DummyModelClass deleted.');
+        Session::flash('message', '{{{modelClass}}} deleted.');
 
-        return redirect('{{route}}.index');
+        return redirect('{{{route}}}.index');
     }
 }

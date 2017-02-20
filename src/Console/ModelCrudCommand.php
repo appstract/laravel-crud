@@ -42,10 +42,10 @@ class ModelCrudCommand extends CrudCommand
     protected function buildClass($name)
     {
         $this->replace = [
-            '{{table}}'      => $this->getTableName(),
-            '{{primaryKey}}' => $this->option('primary'),
-            '{{fillable}}'   => $this->parseFillable(),
-            '{{relations}}'  => $this->parseRelations()
+            '{{{table}}}'      => $this->parseTableName(),
+            '{{{primaryKey}}}' => $this->parsePrimaryKey(),
+            '{{{fillable}}}'   => $this->parseFillable(),
+            '{{{relations}}}'  => $this->parseRelations()
         ];
 
         return parent::buildClass($name);
@@ -92,11 +92,20 @@ class ModelCrudCommand extends CrudCommand
     }
 
     /**
+     * [parsePrimaryKey description]
+     * @return [type] [description]
+     */
+    protected function parsePrimaryKey()
+    {
+        return $this->getOption('primary', 'id');
+    }
+
+    /**
      * Get table name.
      *
      * @return string
      */
-    protected function getTableName()
+    protected function parseTableName()
     {
         return $this->getOption('table', strtolower(str_plural($this->getNameInput())));
     }
@@ -110,7 +119,7 @@ class ModelCrudCommand extends CrudCommand
     {
         $this->info('Creating model: '.$this->getNameInput());
 
-        $this->setOption('table', $this->ask('Table name', $this->getTableName()));
+        $this->setOption('table', $this->ask('Table name', $this->parseTableName()));
 
         $this->setOption('fillable', $this->ask('Fillable', $this->getOption('fillable', false)));
 

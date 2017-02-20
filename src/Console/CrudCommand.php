@@ -30,25 +30,25 @@ class CrudCommand extends GeneratorCommand
     }
 
     /**
-     * Wrap quotes.
+     * Conclude the prompt.
      *
-     * @param  [type] $string [description]
-     * @return [type]         [description]
+     * @return void
      */
-    public function wrapWithQuotes($string)
+    protected function prompt($prepend = [])
     {
-        return ! empty($string) ? "'".$string."'" : null;
-    }
+        $array = $prepend + $this->options();
 
-    /**
-     * Wrap with brackets.
-     *
-     * @param  [type] $string [description]
-     * @return [type]         [description]
-     */
-    public function wrapWithBrackets($string)
-    {
-        return "['".$string."']";
+        $filled = collect($array)->filter(function($value, $key){
+            return $value;
+        })->forget('prompt')->map(function($value, $key){
+            return ['option' => $key, 'value' => $value];
+        });
+
+        $this->table(['option', 'value'], $filled);
+
+        if(! $this->confirm('Is this correct?')) {
+            return $this->prompt();
+        }
     }
 
     /**
@@ -98,6 +98,44 @@ class CrudCommand extends GeneratorCommand
     }
 
     /**
+     * [getModel description]
+     * @param  [type] $name [description]
+     * @return [type]       [description]
+     */
+    public function getModel($name)
+    {
+        $model = new \StdClass;
+
+        $model->fullModelClass = $this->parseModel($name);
+        $model->modelClass     = class_basename($model->fullModelClass);
+        $model->modelPlural    = strtolower(str_plural($model->modelClass));
+
+        return $model;
+    }
+
+    /**
+     * Wrap quotes.
+     *
+     * @param  [type] $string [description]
+     * @return [type]         [description]
+     */
+    public function wrapWithQuotes($string)
+    {
+        return ! empty($string) ? "'".$string."'" : null;
+    }
+
+    /**
+     * Wrap with brackets.
+     *
+     * @param  [type] $string [description]
+     * @return [type]         [description]
+     */
+    public function wrapWithBrackets($string)
+    {
+        return "['".$string."']";
+    }
+
+    /**
      * [getArgument description]
      * @param  [type] $key [description]
      * @return [type]           [description]
@@ -128,27 +166,5 @@ class CrudCommand extends GeneratorCommand
     protected function setOption($key, $value)
     {
         $this->input->setOption($key, $value);
-    }
-
-    /**
-     * Conclude the prompt.
-     *
-     * @return void
-     */
-    protected function prompt($prepend = [])
-    {
-        $array = $prepend + $this->options();
-
-        $filled = collect($array)->filter(function($value, $key){
-            return $value;
-        })->forget('prompt')->map(function($value, $key){
-            return ['option' => $key, 'value' => $value];
-        });
-
-        $this->table(['option', 'value'], $filled);
-
-        if(! $this->confirm('Is this correct?')) {
-            return $this->prompt();
-        }
     }
 }
