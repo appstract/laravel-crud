@@ -2,8 +2,6 @@
 
 namespace Appstract\Crud\Console;
 
-use Symfony\Component\Console\Input\InputOption;
-
 class ModelCrudCommand extends CrudCommand
 {
     /**
@@ -45,7 +43,7 @@ class ModelCrudCommand extends CrudCommand
             '{{{table}}}'      => $this->parseTableName(),
             '{{{primaryKey}}}' => $this->parsePrimaryKey(),
             '{{{fillable}}}'   => $this->parseFillable(),
-            '{{{relations}}}'  => $this->parseRelations()
+            '{{{relations}}}'  => $this->parseRelations(),
         ];
 
         return parent::buildClass($name);
@@ -58,7 +56,7 @@ class ModelCrudCommand extends CrudCommand
      */
     protected function parseFillable()
     {
-        if(! $this->option('fillable')) {
+        if (! $this->option('fillable')) {
             return "['']";
         }
 
@@ -78,14 +76,14 @@ class ModelCrudCommand extends CrudCommand
 
         $code = null;
 
-        foreach($relations as $relation) {
+        foreach ($relations as $relation) {
             $parts = collect(explode('#', $relation));
-            $args  = collect(explode('|', $parts->last()));
+            $args = collect(explode('|', $parts->last()));
             $class = $this->wrapWithQuotes($args->first());
-            $args  = $this->wrapWithQuotes($args->forget(0)->implode("', '", $args));
-            $name  = $parts->first();
+            $args = $this->wrapWithQuotes($args->forget(0)->implode("', '", $args));
+            $name = $parts->first();
 
-            $code .= "/**\n     * ".ucfirst($name)." relation.\n     */\n    public function ".$name."()\n    {\n        "."return \$this->".$parts->get(1)."($class".($args ? ", $args" : '').");". "\n    }\n\n";
+            $code .= "/**\n     * ".ucfirst($name)." relation.\n     */\n    public function ".$name."()\n    {\n        ".'return $this->'.$parts->get(1)."($class".($args ? ", $args" : '').');'."\n    }\n\n";
         }
 
         return $code;
@@ -119,7 +117,7 @@ class ModelCrudCommand extends CrudCommand
         $this->setOption('primary', $this->ask('Primary key', $this->getOption('primary', 'id')));
 
         parent::prompt([
-            'model' => $this->argument('name')
+            'model' => $this->argument('name'),
         ]);
     }
 }

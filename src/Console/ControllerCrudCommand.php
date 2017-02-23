@@ -2,9 +2,6 @@
 
 namespace Appstract\Crud\Console;
 
-use Illuminate\Support\Str;
-use InvalidArgumentException;
-
 class ControllerCrudCommand extends CrudCommand
 {
     /**
@@ -54,7 +51,7 @@ class ControllerCrudCommand extends CrudCommand
             '{{{modelPlural}}}'    => $model->modelPlural,
             '{{{modelSingular}}}'  => strtolower($model->modelClass),
             '{{{view}}}'           => $model->modelPlural,
-            '{{{route}}}'          => $model->modelPlural
+            '{{{route}}}'          => $model->modelPlural,
         ];
 
         return parent::buildClass($name);
@@ -82,7 +79,7 @@ class ControllerCrudCommand extends CrudCommand
 
         parent::prompt([
             'controller' => $this->argument('name'),
-            'model'      => $this->argument('model')
+            'model'      => $this->argument('model'),
         ]);
     }
 }

@@ -2,8 +2,6 @@
 
 namespace Appstract\Crud\Console;
 
-use Symfony\Component\Console\Input\InputOption;
-
 class MigrationCrudCommand extends CrudCommand
 {
     /**
@@ -86,7 +84,7 @@ class MigrationCrudCommand extends CrudCommand
     ];
 
     /**
-     * [$columnModifiers description]
+     * [$columnModifiers description].
      * @var [type]
      */
     protected $columnModifiers = [
@@ -125,14 +123,14 @@ class MigrationCrudCommand extends CrudCommand
     {
         $this->replace = [
             '{{{table}}}' => $this->parseTableName(),
-            '{{{schema}}}' => $this->parseSchema()
+            '{{{schema}}}' => $this->parseSchema(),
         ];
 
         return parent::buildClass($name);
     }
 
     /**
-     * [parseTableName description]
+     * [parseTableName description].
      * @param  [type] $name [description]
      * @return [type]       [description]
      */
@@ -142,20 +140,20 @@ class MigrationCrudCommand extends CrudCommand
     }
 
     /**
-     * [parseSchema description]
+     * [parseSchema description].
      * @return [type] [description]
      */
     public function parseSchema()
     {
         $columns = $this->option('schema') ? explode(';', $this->option('schema')) : [];
 
-        $code = "\n\t\t\t".'$table->increments('.$this->wrapWithQuotes($this->parsePrimaryKey()).');'."\n";;
+        $code = "\n\t\t\t".'$table->increments('.$this->wrapWithQuotes($this->parsePrimaryKey()).');'."\n";
 
-        foreach($columns as $column) {
+        foreach ($columns as $column) {
             $parts = collect(explode('#', $column));
 
             // Name available
-            if(in_array($parts->get(1), $this->columnTypes)) {
+            if (in_array($parts->get(1), $this->columnTypes)) {
                 $code .= "\n\t\t\t".'$table->'.$parts->get(1).'('.$this->wrapWithQuotes($parts->get(0)).');';
             }
 
@@ -184,7 +182,7 @@ class MigrationCrudCommand extends CrudCommand
         $this->setOption('primary', $this->ask('Primary key', $this->getOption('primary', 'id')));
 
         parent::prompt([
-            'model' => $this->argument('name')
+            'model' => $this->argument('name'),
         ]);
     }
 }
