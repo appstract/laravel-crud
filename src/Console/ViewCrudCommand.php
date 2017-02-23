@@ -2,8 +2,6 @@
 
 namespace Appstract\Crud\Console;
 
-use Symfony\Component\Console\Input\InputOption;
-
 class ViewCrudCommand extends CrudCommand
 {
     /**
@@ -28,14 +26,14 @@ class ViewCrudCommand extends CrudCommand
     protected $type = 'View';
 
     /**
-     * [$views description]
+     * [$views description].
      * @var [type]
      */
     protected $views = [
         'index',
         'create',
         'show',
-        'edit'
+        'edit',
     ];
 
     /**

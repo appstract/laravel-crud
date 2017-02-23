@@ -3,10 +3,10 @@
 namespace Appstract\Crud;
 
 use Illuminate\Support\ServiceProvider;
-use Appstract\Crud\Console\ModelCrudCommand;
-use Appstract\Crud\Console\ControllerCrudCommand;
-use Appstract\Crud\Console\MigrationCrudCommand;
 use Appstract\Crud\Console\ViewCrudCommand;
+use Appstract\Crud\Console\ModelCrudCommand;
+use Appstract\Crud\Console\MigrationCrudCommand;
+use Appstract\Crud\Console\ControllerCrudCommand;
 
 class CrudServiceProvider extends ServiceProvider
 {
@@ -16,7 +16,6 @@ class CrudServiceProvider extends ServiceProvider
     public function boot()
     {
         if ($this->app->runningInConsole()) {
-
             $this->publishes([
                 __DIR__.'/../config/crud.php' => config_path('crud.php'),
             ], 'config');
@@ -27,7 +26,6 @@ class CrudServiceProvider extends ServiceProvider
                 MigrationCrudCommand::class,
                 ViewCrudCommand::class,
             ]);
-
         }
     }
 

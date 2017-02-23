@@ -2,15 +2,13 @@
 
 namespace Appstract\Crud\Console;
 
-use Illuminate\Support\Composer;
 use Illuminate\Support\Str;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Console\GeneratorCommand;
 
 class CrudCommand extends GeneratorCommand
 {
     /**
-     * [$replace description]
+     * [$replace description].
      * @var [type]
      */
     protected $replace;
@@ -22,7 +20,7 @@ class CrudCommand extends GeneratorCommand
      */
     public function fire()
     {
-        if($this->option('prompt')) {
+        if ($this->option('prompt')) {
             $this->prompt();
         }
 
@@ -38,15 +36,15 @@ class CrudCommand extends GeneratorCommand
     {
         $array = $prepend + $this->options();
 
-        $filled = collect($array)->filter(function($value, $key){
+        $filled = collect($array)->filter(function ($value, $key) {
             return $value;
-        })->forget('prompt')->map(function($value, $key){
+        })->forget('prompt')->map(function ($value, $key) {
             return ['option' => $key, 'value' => $value];
         });
 
         $this->table(['option', 'value'], $filled);
 
-        if(! $this->confirm('Is this correct?')) {
+        if (! $this->confirm('Is this correct?')) {
             return $this->prompt();
         }
     }
@@ -88,7 +86,7 @@ class CrudCommand extends GeneratorCommand
     }
 
     /**
-     * [parsePrimaryKey description]
+     * [parsePrimaryKey description].
      * @return [type] [description]
      */
     protected function parsePrimaryKey()
@@ -107,7 +105,7 @@ class CrudCommand extends GeneratorCommand
     }
 
     /**
-     * [getModelInput description]
+     * [getModelInput description].
      * @return [type] [description]
      */
     protected function getModelInput()
@@ -116,7 +114,7 @@ class CrudCommand extends GeneratorCommand
     }
 
     /**
-     * [getModel description]
+     * [getModel description].
      * @param  [type] $name [description]
      * @return [type]       [description]
      */
@@ -125,8 +123,8 @@ class CrudCommand extends GeneratorCommand
         $model = new \StdClass;
 
         $model->fullModelClass = $this->parseModel($name);
-        $model->modelClass     = class_basename($model->fullModelClass);
-        $model->modelPlural    = strtolower(str_plural($model->modelClass));
+        $model->modelClass = class_basename($model->fullModelClass);
+        $model->modelPlural = strtolower(str_plural($model->modelClass));
 
         return $model;
     }
@@ -154,7 +152,7 @@ class CrudCommand extends GeneratorCommand
     }
 
     /**
-     * [getArgument description]
+     * [getArgument description].
      * @param  [type] $key [description]
      * @return [type]           [description]
      */
