@@ -88,6 +88,15 @@ class CrudCommand extends GeneratorCommand
     }
 
     /**
+     * [parsePrimaryKey description]
+     * @return [type] [description]
+     */
+    protected function parsePrimaryKey()
+    {
+        return $this->getOption('primary', 'id');
+    }
+
+    /**
      * Get the stub file for the generator.
      *
      * @return string
@@ -95,6 +104,15 @@ class CrudCommand extends GeneratorCommand
     protected function getStub()
     {
         return __DIR__.'/stubs/'.strtolower($this->type).'.stub';
+    }
+
+    /**
+     * [getModelInput description]
+     * @return [type] [description]
+     */
+    protected function getModelInput()
+    {
+        return $this->argument('model') ?: ($this->option('model') ?: null);
     }
 
     /**
@@ -132,7 +150,7 @@ class CrudCommand extends GeneratorCommand
      */
     public function wrapWithBrackets($string)
     {
-        return "['".$string."']";
+        return ! empty($string) ? "['".$string."']" : null;
     }
 
     /**

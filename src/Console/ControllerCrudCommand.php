@@ -43,7 +43,7 @@ class ControllerCrudCommand extends CrudCommand
     {
         $controllerNamespace = $this->getNamespace($name);
 
-        $model = $this->getModel($name);
+        $model = $this->getModel($this->getModelInput());
 
         $this->replace = [
             "use {$controllerNamespace}\Controller;\n" => '',

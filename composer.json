@@ -1,5 +1,5 @@
 {
-    "name": "appstract/:package_name",
+    "name": "appstract/laravel-crud",
     "description": ":package_description",
     "keywords": [
         "appstract",

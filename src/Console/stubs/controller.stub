@@ -48,26 +48,26 @@ class DummyClass extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \{{{fullModelClass}}}  $modelVariable
+     * @param  \{{{fullModelClass}}}  ${{{modelSingular}}}
      * @return \Illuminate\Http\Response
      */
-    public function show({{{modelClass}}} $modelVariable)
+    public function show({{{modelClass}}} ${{{modelSingular}}})
     {
         return view('{{{view}}}.show', [
-            '{{{modelSingular}}}' => $modelVariable
+            '{{{modelSingular}}}' => ${{{modelSingular}}}
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \{{{fullModelClass}}}  $modelVariable
+     * @param  \{{{fullModelClass}}}  ${{{modelSingular}}}
      * @return \Illuminate\Http\Response
      */
-    public function edit({{{modelClass}}} $modelVariable)
+    public function edit({{{modelClass}}} ${{{modelSingular}}})
     {
         return view('{{{view}}}.edit', [
-            '{{{modelSingular}}}' => $modelVariable
+            '{{{modelSingular}}}' => ${{{modelSingular}}}
         ]);
     }
 
@@ -75,12 +75,12 @@ class DummyClass extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \{{{fullModelClass}}}  $modelVariable
+     * @param  \{{{fullModelClass}}}  ${{{modelSingular}}}
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, {{{modelClass}}} $modelVariable)
+    public function update(Request $request, {{{modelClass}}} ${{{modelSingular}}})
     {
-        $modelVariable->update($request->all());
+        ${{{modelSingular}}}->update($request->all());
 
         $request->session()->flash('message', '{{{modelClass}}} updated.');
 
@@ -90,14 +90,14 @@ class DummyClass extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \{{{fullModelClass}}}  $modelVariable
+     * @param  \{{{fullModelClass}}}  ${{{modelSingular}}}
      * @return \Illuminate\Http\Response
      */
-    public function destroy({{{modelClass}}} $modelVariable)
+    public function destroy({{{modelClass}}} ${{{modelSingular}}})
     {
-        $modelVariable->destroy();
+        ${{{modelSingular}}}->destroy();
 
-        Session::flash('message', '{{{modelClass}}} deleted.');
+        $request->session()->flash('message', '{{{modelClass}}} deleted.');
 
         return redirect('{{{route}}}.index');
     }

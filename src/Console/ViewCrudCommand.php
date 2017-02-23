@@ -39,6 +39,59 @@ class ViewCrudCommand extends CrudCommand
     ];
 
     /**
+     *  Migration column types collection.
+     *
+     * @var array
+     */
+    protected $fieldTypes = [
+        'bigIncrements',
+        'bigInteger',
+        'binary',
+        'boolean',
+        'char',
+        'date',
+        'dateTime',
+        'dateTimeTz',
+        'decimal',
+        'double',
+        'enum',
+        'float',
+        'increments',
+        'integer',
+        'ipAddress',
+        'json',
+        'jsonb',
+        'longText',
+        'macAddress',
+        'mediumIncrements',
+        'mediumInteger',
+        'mediumText',
+        'morphs',
+        'nullableMorphs',
+        'nullableTimestamps',
+        'rememberToken',
+        'smallIncrements',
+        'smallInteger',
+        'softDeletes',
+        'string',
+        'string',
+        'text',
+        'time',
+        'timeTz',
+        'tinyInteger',
+        'timestamp',
+        'timestampTz',
+        'timestamps',
+        'timestampsTz',
+        'unsignedBigInteger',
+        'unsignedInteger',
+        'unsignedMediumInteger',
+        'unsignedSmallInteger',
+        'unsignedTinyInteger',
+        'uuid',
+    ];
+
+    /**
      * Build the class with the given name.
      *
      * @param  string  $name

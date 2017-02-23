@@ -92,15 +92,6 @@ class ModelCrudCommand extends CrudCommand
     }
 
     /**
-     * [parsePrimaryKey description]
-     * @return [type] [description]
-     */
-    protected function parsePrimaryKey()
-    {
-        return $this->getOption('primary', 'id');
-    }
-
-    /**
      * Get table name.
      *
      * @return string
