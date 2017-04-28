@@ -2,15 +2,20 @@
 
 namespace Appstract\Crud\Console;
 
+use Appstract\Crud\Console\Generators\GeneratorCommand;
+use Appstract\Crud\Console\Properties\HasModel;
+
 class ControllerCrudCommand extends CrudCommand
 {
+    use HasModel;
+
     /**
      * The console command name.
      *
      * @var string
      */
     protected $signature = 'crud:controller
-                            {name : Name of the class.}
+                            {name : Name of the class}
                             {model : Name of the model}
                             {--p|prompt : Run in prompt}';
 
@@ -36,7 +41,7 @@ class ControllerCrudCommand extends CrudCommand
      * @param  string  $name
      * @return string
      */
-    protected function buildClass($name)
+    protected function replace($name)
     {
         $controllerNamespace = $this->getNamespace($name);
 
@@ -54,7 +59,7 @@ class ControllerCrudCommand extends CrudCommand
             '{{{route}}}'          => $model->modelPlural,
         ];
 
-        return parent::buildClass($name);
+        return parent::replace($name);
     }
 
     /**

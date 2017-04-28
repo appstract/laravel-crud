@@ -2,20 +2,31 @@
 
 namespace Appstract\Crud\Console;
 
-class ModelCrudCommand extends CrudCommand
+use Appstract\Crud\Console\Generators\GeneratorCommand;
+use Appstract\Crud\Console\Properties\HasPrimaryKey;
+use Appstract\Crud\Console\Properties\HasTableName;
+use Appstract\Crud\Console\Properties\HasFillable;
+use Appstract\Crud\Console\Properties\HasRelations;
+
+class ModelCrudCommand extends GeneratorCommand
 {
+    use HasPrimaryKey,
+        HasTableName,
+        HasFillable,
+        HasRelations;
+
     /**
      * The console command name.
      *
      * @var string
      */
     protected $signature = 'crud:model
-                            {name : Name of the class.}
+                            {name : Name of the class}
                             {--p|prompt : Run in prompt}
-                            {--t|table= : The name of the table.}
-                            {--fillable= : The names of the fillable columns.}
+                            {--t|table= : The name of the table}
+                            {--fillable= : The names of the fillable columns}
                             {--relations= : The relations for the model}
-                            {--primary=id : The name of the primary key.}';
+                            {--primary=id : The name of the primary key}';
 
     /**
      * The console command description.
@@ -37,66 +48,16 @@ class ModelCrudCommand extends CrudCommand
      * @param  string  $name
      * @return string
      */
-    protected function buildClass($name)
+    protected function replace($name)
     {
         $this->replace = [
-            '{{{table}}}'      => $this->parseTableName(),
-            '{{{primaryKey}}}' => $this->parsePrimaryKey(),
-            '{{{fillable}}}'   => $this->parseFillable(),
-            '{{{relations}}}'  => $this->parseRelations(),
+            '{{{table}}}'      => $this->getTableName(),
+            '{{{primaryKey}}}' => $this->getPrimaryKey(),
+            '{{{fillable}}}'   => $this->getFillable(),
+            '{{{relations}}}'  => $this->getRelations(),
         ];
 
-        return parent::buildClass($name);
-    }
-
-    /**
-     * Parse fillable.
-     *
-     * @return string
-     */
-    protected function parseFillable()
-    {
-        if (! $this->option('fillable')) {
-            return "['']";
-        }
-
-        $explode = explode(';', $this->option('fillable'));
-
-        return $this->wrapWithBrackets(implode("', '", $explode));
-    }
-
-    /**
-     * Parse relations.
-     *
-     * @return string
-     */
-    protected function parseRelations()
-    {
-        $relations = $this->option('relations') ? explode(';', $this->option('relations')) : [];
-
-        $code = null;
-
-        foreach ($relations as $relation) {
-            $parts = collect(explode('#', $relation));
-            $args = collect(explode('|', $parts->last()));
-            $class = $this->wrapWithQuotes($args->first());
-            $args = $this->wrapWithQuotes($args->forget(0)->implode("', '", $args));
-            $name = $parts->first();
-
-            $code .= "/**\n     * ".ucfirst($name)." relation.\n     */\n    public function ".$name."()\n    {\n        ".'return $this->'.$parts->get(1)."($class".($args ? ", $args" : '').');'."\n    }\n\n";
-        }
-
-        return $code;
-    }
-
-    /**
-     * Get table name.
-     *
-     * @return string
-     */
-    protected function parseTableName()
-    {
-        return $this->getOption('table', strtolower(str_plural($this->getNameInput())));
+        return parent::replace($name);
     }
 
     /**

@@ -3,10 +3,6 @@
 namespace Appstract\Crud;
 
 use Illuminate\Support\ServiceProvider;
-use Appstract\Crud\Console\ViewCrudCommand;
-use Appstract\Crud\Console\ModelCrudCommand;
-use Appstract\Crud\Console\MigrationCrudCommand;
-use Appstract\Crud\Console\ControllerCrudCommand;
 
 class CrudServiceProvider extends ServiceProvider
 {
@@ -21,10 +17,10 @@ class CrudServiceProvider extends ServiceProvider
             ], 'config');
 
             $this->commands([
-                ModelCrudCommand::class,
-                ControllerCrudCommand::class,
-                MigrationCrudCommand::class,
-                ViewCrudCommand::class,
+                \Appstract\Crud\Console\ModelCrudCommand::class,
+                \Appstract\Crud\Console\ControllerCrudCommand::class,
+                \Appstract\Crud\Console\MigrationCrudCommand::class,
+                \Appstract\Crud\Console\ViewCrudCommand::class,
             ]);
         }
     }
