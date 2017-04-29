@@ -2,14 +2,20 @@
 
 namespace Appstract\Crud\Console\Generators;
 
-use Illuminate\Support\Str;
 use Illuminate\Console\GeneratorCommand as Command;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use Appstract\Crud\Console\Properties\HasPrimaryArgument;
+use Appstract\Crud\Console\Properties\HasNamespace;
+use Appstract\Crud\Console\Properties\HasClass;
 
 class GeneratorCommand extends Command
 {
+    use HasPrimaryArgument,
+        HasNamespace,
+        HasClass;
+
     /**
      * The filesystem instance.
      *
@@ -61,10 +67,11 @@ class GeneratorCommand extends Command
             $this->prompt();
         }
 
-        $name = $this->argument($this->primaryArgument);
+        $name = $this->getPrimaryArgument();
+
         $path = $this->getPath($name);
 
-        if ($this->alreadyExists($this->primaryArgument)) {
+        if ($this->alreadyExists($name)) {
             $this->error($this->type.' already exists!');
 
             return false;
@@ -86,8 +93,12 @@ class GeneratorCommand extends Command
     protected function replace($name)
     {
         $stub = $this->files->get($this->getStub());
-        $stub = $this->replaceNamespace($stub, $name);
-        $stub = $this->replaceClass($stub, $name);
+
+        $name = $this->getPrimaryArgument();
+
+        $this->replace['{{{namespace}}}'] = $this->getNamespace($name);
+        $this->replace['{{{rootNamespace}}}'] = $this->getNamespace($name);
+        $this->replace['{{{class}}}'] = $this->getClass($name);
 
         return str_replace(
             array_keys($this->replace),
@@ -148,93 +159,6 @@ class GeneratorCommand extends Command
     public function wrapWithBrackets($string)
     {
         return ! empty($string) ? "['".$string."']" : null;
-    }
-
-    /**
-     * Parse the name and format according to the root namespace.
-     *
-     * @param  string  $name
-     * @return string
-     */
-    protected function parsePrimaryArgument($name)
-    {
-        $rootNamespace = $this->laravel->getNamespace();
-
-        if (Str::startsWith($name, $rootNamespace)) {
-            return $name;
-        }
-
-        if (Str::contains($name, '/')) {
-            $name = str_replace('/', '\\', $name);
-        }
-
-        return $this->parsePrimaryArgument($this->getDefaultNamespace(trim($rootNamespace, '\\')).'\\'.$name);
-    }
-
-    /**
-     * Get the full namespace name for a given class.
-     *
-     * @param  string  $name
-     * @return string
-     */
-    protected function getNamespace($name)
-    {
-        return trim(implode('\\', array_slice(explode('\\', $name), 0, -1)), '\\');
-    }
-
-    /**
-     * Get the default namespace for the class.
-     *
-     * @param  string  $rootNamespace
-     * @return string
-     */
-    protected function getDefaultNamespace($rootNamespace)
-    {
-        return $rootNamespace;
-    }
-
-    /**
-     * Replace the namespace for the given stub.
-     *
-     * @param  string  $stub
-     * @param  string  $name
-     * @return $this
-     */
-    protected function replaceNamespace(&$stub, $name)
-    {
-        $stub = str_replace(
-            '{{{namespace}}}', $this->getNamespace($name), $stub
-        );
-
-        $stub = str_replace(
-            '{{{rootNamespace}}}', $this->laravel->getNamespace(), $stub
-        );
-
-        return $stub;
-    }
-
-    /**
-     * Replace the class name for the given stub.
-     *
-     * @param  string  $stub
-     * @param  string  $name
-     * @return string
-     */
-    protected function replaceClass($stub, $name)
-    {
-        $class = str_replace($this->getNamespace($name).'\\', '', $name);
-
-        return str_replace('{{{class}}}', $class, $stub);
-    }
-
-    /**
-     * Get the value of the primary argument.
-     *
-     * @return string
-     */
-    protected function getPrimaryArgument()
-    {
-        return $this->argument($this->primaryArgument);
     }
 
     /**
