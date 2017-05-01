@@ -10,7 +10,9 @@ trait HasFillable
      */
     protected function getFillableInput()
     {
-        return $this->getOption('fillable');
+        return $this->hasArgument('fillable')
+            ? $this->argument('fillable')
+            : ($this->option('fillable') ?: null);
     }
 
     /**

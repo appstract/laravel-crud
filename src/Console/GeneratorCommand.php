@@ -1,20 +1,15 @@
 <?php
 
-namespace Appstract\Crud\Console\Generators;
+namespace Appstract\Crud\Console;
 
 use Illuminate\Console\GeneratorCommand as Command;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Appstract\Crud\Console\Properties\HasPrimaryArgument;
-use Appstract\Crud\Console\Properties\HasNamespace;
-use Appstract\Crud\Console\Properties\HasClass;
 
 class GeneratorCommand extends Command
 {
-    use HasPrimaryArgument,
-        HasNamespace,
-        HasClass;
+    // use Properties\HasName;
 
     /**
      * The filesystem instance.
@@ -29,13 +24,6 @@ class GeneratorCommand extends Command
      * @var string
      */
     protected $type;
-
-    /**
-     * Primary argument.
-     *
-     * @var string
-     */
-    protected $primaryArgument = 'name';
 
     /**
      * [$replace description].
@@ -63,15 +51,15 @@ class GeneratorCommand extends Command
      */
     public function fire()
     {
+        $name = $this->parseName($this->getNameInput());
+
+        $path = $this->getPath($name);
+
         if ($this->option('prompt')) {
             $this->prompt();
         }
 
-        $name = $this->getPrimaryArgument();
-
-        $path = $this->getPath($name);
-
-        if ($this->alreadyExists($name)) {
+        if ($this->alreadyExists($this->getNameInput())) {
             $this->error($this->type.' already exists!');
 
             return false;
@@ -92,18 +80,16 @@ class GeneratorCommand extends Command
      */
     protected function replace($name)
     {
-        $stub = $this->files->get($this->getStub());
-
-        $name = $this->getPrimaryArgument();
-
-        $this->replace['{{{namespace}}}'] = $this->getNamespace($name);
-        $this->replace['{{{rootNamespace}}}'] = $this->getNamespace($name);
-        $this->replace['{{{class}}}'] = $this->getClass($name);
+        $this->replace = array_merge($this->replace, [
+            '{{{namespace}}}' => $this->getNamespace($name),
+            '{{{rootNamespace}}}' => $this->laravel->getNamespace(),
+            '{{{class}}}' => str_replace($this->getNamespace($name).'\\', '', $name)
+        ]);
 
         return str_replace(
             array_keys($this->replace),
             array_values($this->replace),
-            $stub
+            $this->files->get($this->getStub())
         );
     }
 
@@ -114,7 +100,7 @@ class GeneratorCommand extends Command
      */
     protected function getStub()
     {
-        return __DIR__.'/../stubs/'.strtolower($this->type).'.stub';
+        return __DIR__.'/stubs/'.strtolower($this->type).'.stub';
     }
 
     /**

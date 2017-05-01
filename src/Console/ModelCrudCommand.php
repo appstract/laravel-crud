@@ -2,18 +2,12 @@
 
 namespace Appstract\Crud\Console;
 
-use Appstract\Crud\Console\Generators\GeneratorCommand;
-use Appstract\Crud\Console\Properties\HasPrimaryKey;
-use Appstract\Crud\Console\Properties\HasTableName;
-use Appstract\Crud\Console\Properties\HasFillable;
-use Appstract\Crud\Console\Properties\HasRelations;
-
 class ModelCrudCommand extends GeneratorCommand
 {
-    use HasPrimaryKey,
-        HasTableName,
-        HasFillable,
-        HasRelations;
+    use Properties\HasPrimaryKey,
+        Properties\HasTableName,
+        Properties\HasFillable,
+        Properties\HasRelations;
 
     /**
      * The console command name.
@@ -69,7 +63,7 @@ class ModelCrudCommand extends GeneratorCommand
     {
         $this->info('Creating model: '.$this->getNameInput());
 
-        $this->setOption('table', $this->ask('Table name', $this->parseTableName()));
+        $this->setOption('table', $this->ask('Table name', $this->getTableName()));
 
         $this->setOption('fillable', $this->ask('Fillable', $this->getOption('fillable', false)));
 

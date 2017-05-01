@@ -2,7 +2,7 @@
 
 namespace Appstract\Crud\Console;
 
-class ViewCrudCommand extends CrudCommand
+class ViewCrudCommand extends GeneratorCommand
 {
     /**
      * The console command name.

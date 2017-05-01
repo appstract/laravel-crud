@@ -10,7 +10,9 @@ trait HasPrimaryKey
      */
     protected function getPrimaryKeyInput()
     {
-        return $this->getOption('primary', 'id');
+        return $this->hasArgument('primary')
+            ? $this->argument('primary')
+            : ($this->option('primary') ?: null);
     }
 
     /**

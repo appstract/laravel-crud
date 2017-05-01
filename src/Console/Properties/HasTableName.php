@@ -10,7 +10,9 @@ trait HasTableName
      */
     protected function getTableNameInput()
     {
-        return $this->getOption('table', strtolower(str_plural($this->getPrimaryArgument())));
+        return $this->hasArgument('table')
+            ? $this->argument('table')
+            : ($this->option('table') ?: strtolower(str_plural($this->getNameInput())));
     }
 
     /**

@@ -2,12 +2,9 @@
 
 namespace Appstract\Crud\Console;
 
-use Appstract\Crud\Console\Generators\GeneratorCommand;
-use Appstract\Crud\Console\Properties\HasModel;
-
-class ControllerCrudCommand extends CrudCommand
+class ControllerCrudCommand extends GeneratorCommand
 {
-    use HasModel;
+    use Properties\HasModel;
 
     /**
      * The console command name.
@@ -45,18 +42,18 @@ class ControllerCrudCommand extends CrudCommand
     {
         $controllerNamespace = $this->getNamespace($name);
 
-        $model = $this->getModel($this->getModelInput());
+        $model = $this->getModel();
 
         $this->replace = [
             "use {$controllerNamespace}\Controller;\n" => '',
 
-            '{{{fullModelClass}}}' => $model->fullModelClass,
-            '{{{modelClass}}}'     => $model->modelClass,
-            '{{{modelVariable}}}'  => lcfirst($model->modelClass),
-            '{{{modelPlural}}}'    => $model->modelPlural,
-            '{{{modelSingular}}}'  => strtolower($model->modelClass),
-            '{{{view}}}'           => $model->modelPlural,
-            '{{{route}}}'          => $model->modelPlural,
+            '{{{fullModelClass}}}' => $model->namespaced,
+            '{{{modelClass}}}'     => $model->class,
+            '{{{modelVariable}}}'  => lcfirst($model->class),
+            '{{{modelPlural}}}'    => $model->plural,
+            '{{{modelSingular}}}'  => strtolower($model->class),
+            '{{{view}}}'           => $model->plural,
+            '{{{route}}}'          => $model->plural,
         ];
 
         return parent::replace($name);

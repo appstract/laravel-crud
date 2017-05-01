@@ -2,7 +2,7 @@
 
 namespace Appstract\Crud\Console;
 
-class MigrationCrudCommand extends CrudCommand
+class MigrationCrudCommand extends GeneratorCommand
 {
     /**
      * The console command name.

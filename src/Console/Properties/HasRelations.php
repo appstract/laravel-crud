@@ -10,11 +10,14 @@ trait HasRelations
      */
     protected function getRelationsInput()
     {
-        return $this->getOption('relations');
+        return $this->hasArgument('relations')
+            ? $this->argument('relations')
+            : ($this->option('relations') ?: null);
     }
 
     /**
      * Parse relations.
+     * images#hasMany#App\Image|foreign_key|local_key
      *
      * @return string
      */
