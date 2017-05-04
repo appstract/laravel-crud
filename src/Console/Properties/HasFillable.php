@@ -5,7 +5,7 @@ namespace Appstract\Crud\Console\Properties;
 trait HasFillable
 {
     /**
-     * [getTableNameInput description]
+     * [getTableNameInput description].
      * @return [type] [description]
      */
     protected function getFillableInput()

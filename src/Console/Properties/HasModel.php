@@ -27,8 +27,8 @@ trait HasModel
         $model = new \StdClass;
 
         $model->namespaced = 'App\\'.$name;
-        $model->class      = class_basename($model->namespaced);
-        $model->plural     = strtolower(str_plural($model->class));
+        $model->class = class_basename($model->namespaced);
+        $model->plural = strtolower(str_plural($model->class));
 
         return $model;
     }

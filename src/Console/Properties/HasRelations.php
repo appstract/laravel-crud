@@ -5,7 +5,7 @@ namespace Appstract\Crud\Console\Properties;
 trait HasRelations
 {
     /**
-     * [getTableNameInput description]
+     * [getTableNameInput description].
      * @return [type] [description]
      */
     protected function getRelationsInput()
@@ -17,7 +17,7 @@ trait HasRelations
 
     /**
      * Parse relations.
-     * images#hasMany#App\Image|foreign_key|local_key
+     * images#hasMany#App\Image|foreign_key|local_key.
      *
      * @return string
      */

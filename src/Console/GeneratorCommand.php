@@ -2,10 +2,8 @@
 
 namespace Appstract\Crud\Console;
 
-use Illuminate\Console\GeneratorCommand as Command;
 use Illuminate\Filesystem\Filesystem;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
+use Illuminate\Console\GeneratorCommand as Command;
 
 class GeneratorCommand extends Command
 {
@@ -83,7 +81,7 @@ class GeneratorCommand extends Command
         $this->replace = array_merge($this->replace, [
             '{{{namespace}}}' => $this->getNamespace($name),
             '{{{rootNamespace}}}' => $this->laravel->getNamespace(),
-            '{{{class}}}' => str_replace($this->getNamespace($name).'\\', '', $name)
+            '{{{class}}}' => str_replace($this->getNamespace($name).'\\', '', $name),
         ]);
 
         return str_replace(

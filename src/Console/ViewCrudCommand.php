@@ -39,7 +39,7 @@ class ViewCrudCommand extends GeneratorCommand
      */
     public function fire()
     {
-        foreach($this->views as $view => $command) {
+        foreach ($this->views as $view => $command) {
             //
         }
     }
