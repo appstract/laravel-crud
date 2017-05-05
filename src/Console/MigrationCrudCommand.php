@@ -4,6 +4,10 @@ namespace Appstract\Crud\Console;
 
 class MigrationCrudCommand extends GeneratorCommand
 {
+    use Properties\HasPrimaryKey,
+        Properties\HasTableName,
+        Properties\HasSchema;
+
     /**
      * The console command name.
      *
@@ -106,7 +110,7 @@ class MigrationCrudCommand extends GeneratorCommand
      */
     protected function getPath($name)
     {
-        $name = $this->parseTableName($name);
+        $name = $this->getTableName($name);
 
         $date = date('Y_m_d_His');
 
@@ -119,51 +123,14 @@ class MigrationCrudCommand extends GeneratorCommand
      * @param  string  $name
      * @return string
      */
-    protected function buildClass($name)
+    protected function replace($name)
     {
         $this->replace = [
-            '{{{table}}}' => $this->parseTableName(),
-            '{{{schema}}}' => $this->parseSchema(),
+            '{{{table}}}' => $this->getTableName(),
+            '{{{schema}}}' => $this->getSchema(),
         ];
 
-        return parent::buildClass($name);
-    }
-
-    /**
-     * [parseTableName description].
-     * @param  [type] $name [description]
-     * @return [type]       [description]
-     */
-    public function parseTableName()
-    {
-        return str_replace($this->laravel->getNamespace(), '', $this->getNameInput());
-    }
-
-    /**
-     * [parseSchema description].
-     * @return [type] [description]
-     */
-    public function parseSchema()
-    {
-        $columns = $this->option('schema') ? explode(';', $this->option('schema')) : [];
-
-        $code = "\n\t\t\t".'$table->increments('.$this->wrapWithQuotes($this->parsePrimaryKey()).');'."\n";
-
-        foreach ($columns as $column) {
-            $parts = collect(explode('#', $column));
-
-            // Name available
-            if (in_array($parts->get(1), $this->columnTypes)) {
-                $code .= "\n\t\t\t".'$table->'.$parts->get(1).'('.$this->wrapWithQuotes($parts->get(0)).');';
-            }
-
-            // Empty function, eg timestamps
-            else {
-                $code .= "\n\t\t\t".'$table->'.$parts->get(0).'();'."\n";
-            }
-        }
-
-        return $code;
+        return parent::replace($name);
     }
 
     /**
@@ -175,7 +142,7 @@ class MigrationCrudCommand extends GeneratorCommand
     {
         $this->info('Creating migration: '.$this->getNameInput());
 
-        $this->setOption('table', $this->ask('Table name', $this->parseTableName()));
+        $this->setOption('table', $this->ask('Table name', $this->getTableName()));
 
         $this->setOption('schema', $this->ask('Schema', $this->getOption('schema')));
 

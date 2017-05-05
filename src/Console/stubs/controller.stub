@@ -95,7 +95,7 @@ class {{{class}}} extends Controller
      */
     public function destroy({{{modelClass}}} ${{{modelSingular}}})
     {
-        ${{{modelSingular}}}->destroy();
+        ${{{modelSingular}}}->delete();
 
         $request->session()->flash('message', '{{{modelClass}}} deleted.');
 
