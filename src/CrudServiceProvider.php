@@ -12,14 +12,11 @@ class CrudServiceProvider extends ServiceProvider
     public function boot()
     {
         if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__.'/../config/crud.php' => config_path('crud.php'),
-            ], 'config');
-
             $this->commands([
                 \Appstract\Crud\Console\ModelCrudCommand::class,
                 \Appstract\Crud\Console\ControllerCrudCommand::class,
                 \Appstract\Crud\Console\MigrationCrudCommand::class,
+                \Appstract\Crud\Console\ViewsCrudCommand::class,
                 \Appstract\Crud\Console\ViewCrudCommand::class,
             ]);
         }
@@ -30,6 +27,6 @@ class CrudServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/crud.php', 'crud');
+        //
     }
 }
