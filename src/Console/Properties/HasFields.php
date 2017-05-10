@@ -2,44 +2,37 @@
 
 namespace Appstract\Crud\Console\Properties;
 
-trait HasSchema
+trait HasFields
 {
     /**
      * [getModelInput description].
      * @return [type] [description]
      */
-    public function getSchemaInput()
+    public function getFieldsInput()
     {
-        return $this->hasArgument('schema')
-            ? $this->argument('schema')
-            : ($this->option('schema') ?: null);
+        return $this->hasArgument('fields')
+            ? $this->argument('fields')
+            : ($this->option('fields') ?: null);
     }
 
     /**
-     * [parseSchema description].
-     * @return [type] [description]
+     * [getModel description].
+     * @param  [type] $name [description]
+     * @return [type]       [description]
      */
-    public function getSchema()
+    public function getFields()
     {
-        $columns = $this->getSchemaInput() ? explode(';', $this->getSchemaInput()) : [];
+        $fields = $this->getFieldsInput() ? explode(';', $this->getFieldsInput()) : [];
 
-        $code = "\n\t\t\t".'$table->increments('.$this->wrapWithQuotes($this->getPrimaryKey()).');'."\n";
+        $array = [];
 
-        foreach ($columns as $column) {
-            $parts = collect(explode('#', $column));
+        foreach($fields as $field) {
+            $field = collect(explode('#', $field));
 
-            // Name available
-            if (in_array($parts->get(1), $this->columnTypes)) {
-                $code .= "\n\t\t\t".'$table->'.$parts->get(1).'('.$this->wrapWithQuotes($parts->get(0)).');';
-            }
-
-            // Empty function, eg timestamps
-            else {
-                $code .= "\n\t\t\t".'$table->'.$parts->get(0).'();'."\n";
-            }
+            $array[$field->get(0)] = $field->get(1);
         }
 
-        return $code;
+        return $array;
     }
 
     /**
@@ -47,7 +40,7 @@ trait HasSchema
      *
      * @var array
      */
-    protected $columnTypes = [
+    protected $fieldTypes = [
         'bigIncrements',
         'bigInteger',
         'binary',
@@ -93,20 +86,5 @@ trait HasSchema
         'unsignedSmallInteger',
         'unsignedTinyInteger',
         'uuid',
-    ];
-
-    /**
-     * [$columnModifiers description].
-     * @var [type]
-     */
-    protected $columnModifiers = [
-        'after',
-        'comment',
-        'default',
-        'first',
-        'nullable',
-        'storedAs',
-        'unsigned',
-        'virtualAs',
     ];
 }

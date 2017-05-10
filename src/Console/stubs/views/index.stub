@@ -2,47 +2,41 @@
 
 @section('content')
     <div class="container">
-        <div class="row">
-            <h1>{{{crudNameCap}}}</h1>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{{modelPluralCapitalized}}}
 
-            <a href="{{ route('{{model}}.create') }}" class="btn btn-success btn-sm" title="Add New">
-                <i class="fa fa-plus" aria-hidden="true"></i> Add New
-            </a>
+                <div class="pull-right">
+                    <a href="{{ route('{{{modelPlural}}}.create') }}" class="btn btn-primary btn-xs" title="Add New"><i class="fa fa-plus"></i> Add New</a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                {{{tableHeadColumns}}}
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(${{{modelPlural}}} as ${{{modelSingular}}})
+                                <tr>
+                                    <td>
+                                        <a href="{{ route('{{{modelPlural}}}.show', ${{{modelSingular}}}->id) }}">{{ ${{{modelSingular}}}->id }}</a>
+                                    </td>
+                                    {{{tableBodyColumns}}}
+                                    <td>
+                                        <a href="{{ route('{{{modelPlural}}}.edit', ${{{modelSingular}}}->id) }}" title="Edit" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-pencil"></i></button></a>
 
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>%%formHeadingHtml%%<th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($%%crudName%% as $item)
-                        <tr>
-                            <td>{{ $item->id }}</td>
-                            %%formBodyHtml%%
-                            <td>
-                                <a href="{{ url('/%%routeGroup%%%%viewName%%/' . $item->%%primaryKey%%) }}" title="View %%modelName%%"><button class="btn btn-info btn-xs"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
-
-                                <a href="{{ url('/%%routeGroup%%%%viewName%%/' . $item->%%primaryKey%% . '/edit') }}" title="Edit %%modelName%%"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
-
-                                {!! Form::open([
-                                    'method'=>'DELETE',
-                                    'url' => ['/%%routeGroup%%%%viewName%%', $item->%%primaryKey%%],
-                                    'style' => 'display:inline'
-                                ]) !!}
-                                    {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i> Delete', array(
-                                            'type' => 'submit',
-                                            'class' => 'btn btn-danger btn-xs',
-                                            'title' => 'Delete %%modelName%%',
-                                            'onclick'=>'return confirm("Confirm delete?")'
-                                    )) !!}
-                                {!! Form::close() !!}
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+                                        <a href="{{ route('{{{modelPlural}}}.destroy', ${{{modelSingular}}}->id) }}" title="Delete" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i></button></a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

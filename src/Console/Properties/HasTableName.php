@@ -8,7 +8,7 @@ trait HasTableName
      * [getTableNameInput description].
      * @return [type] [description]
      */
-    protected function getTableNameInput()
+    public function getTableNameInput()
     {
         return $this->hasArgument('table')
             ? $this->argument('table')
@@ -20,7 +20,7 @@ trait HasTableName
      *
      * @return string
      */
-    protected function getTableName()
+    public function getTableName()
     {
         return $this->getTableNameInput();
     }

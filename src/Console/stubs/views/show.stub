@@ -2,43 +2,31 @@
 
 @section('content')
     <div class="container">
-        <div class="row">
-            @include('admin.sidebar')
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{{modelSingularCapitalized}}} (#{{ ${{{modelSingular}}}->id }})
 
-            <div class="col-md-9">
-                <div class="panel panel-default">
-                    <div class="panel-heading">%%modelName%% {{ $%%crudNameSingular%%->%%primaryKey%% }}</div>
-                    <div class="panel-body">
+                <div class="pull-right">
+                    <a href="{{ route('{{{modelPlural}}}.edit', ${{{modelSingular}}}->id) }}" title="Edit" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-pencil"></i></a>
 
-                        <a href="{{ url('/%%routeGroup%%%%viewName%%') }}" title="Back"><button class="btn btn-warning btn-xs"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
-                        <a href="{{ url('/%%routeGroup%%%%viewName%%/' . $%%crudNameSingular%%->%%primaryKey%% . '/edit') }}" title="Edit %%modelName%%"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
-                        {!! Form::open([
-                            'method'=>'DELETE',
-                            'url' => ['%%routeGroup%%%%crudName%%', $%%crudNameSingular%%->%%primaryKey%%],
-                            'style' => 'display:inline'
-                        ]) !!}
-                            {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i> Delete', array(
-                                    'type' => 'submit',
-                                    'class' => 'btn btn-danger btn-xs',
-                                    'title' => 'Delete %%modelName%%',
-                                    'onclick'=>'return confirm("Confirm delete?")'
-                            ))!!}
-                        {!! Form::close() !!}
-                        <br/>
-                        <br/>
+                    <a href="{{ route('{{{modelPlural}}}.index') }}" title="Back" class="btn btn-default btn-xs">Back</a>
+                </div>
+            </div>
+            <div class="panel-body">
+                @if ($errors->any())
+                    <ul class="alert alert-danger">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                @endif
 
-                        <div class="table-responsive">
-                            <table class="table table-borderless">
-                                <tbody>
-                                    <tr>
-                                        <th>ID</th><td>{{ $%%crudNameSingular%%->%%primaryKey%% }}</td>
-                                    </tr>
-                                    %%formBodyHtmlForShowView%%
-                                </tbody>
-                            </table>
-                        </div>
+                <div class="table-responsive">
+                    <table class="table table-borderless">
+                        <tbody>
 
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

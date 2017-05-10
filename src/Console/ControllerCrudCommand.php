@@ -13,7 +13,7 @@ class ControllerCrudCommand extends GeneratorCommand
      */
     protected $signature = 'crud:controller
                             {name : Name of the class}
-                            {model : Name of the model}
+                            {--model= : Name of the model}
                             {--p|prompt : Run in prompt}';
 
     /**
@@ -46,14 +46,8 @@ class ControllerCrudCommand extends GeneratorCommand
 
         $this->replace = [
             "use {$controllerNamespace}\Controller;\n" => '',
-
-            '{{{fullModelClass}}}' => $model->namespaced,
-            '{{{modelClass}}}'     => $model->class,
-            '{{{modelVariable}}}'  => lcfirst($model->class),
-            '{{{modelPlural}}}'    => $model->plural,
-            '{{{modelSingular}}}'  => strtolower($model->class),
-            '{{{view}}}'           => $model->plural,
-            '{{{route}}}'          => $model->plural,
+            '{{{view}}}' => $model->plural,
+            '{{{route}}}' => $model->plural,
         ];
 
         return parent::replace($name);

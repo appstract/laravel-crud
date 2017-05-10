@@ -14,9 +14,9 @@ class MigrationCrudCommand extends GeneratorCommand
      * @var string
      */
     protected $signature = 'crud:migration
-                            {name : Name of the model.}
-                            {--table= : Table name.}
-                            {--schema= : Table schema.}
+                            {name : Name of the model}
+                            {--table= : Table name}
+                            {--schema= : Table schema}
                             {--primary=id : Primary key}
                             {--p|prompt : Run in prompt}';
 
@@ -33,74 +33,6 @@ class MigrationCrudCommand extends GeneratorCommand
      * @var string
      */
     protected $type = 'Migration';
-
-    /**
-     *  Migration column types collection.
-     *
-     * @var array
-     */
-    protected $columnTypes = [
-        'bigIncrements',
-        'bigInteger',
-        'binary',
-        'boolean',
-        'char',
-        'date',
-        'dateTime',
-        'dateTimeTz',
-        'decimal',
-        'double',
-        'enum',
-        'float',
-        'increments',
-        'integer',
-        'ipAddress',
-        'json',
-        'jsonb',
-        'longText',
-        'macAddress',
-        'mediumIncrements',
-        'mediumInteger',
-        'mediumText',
-        'morphs',
-        'nullableMorphs',
-        'nullableTimestamps',
-        'rememberToken',
-        'smallIncrements',
-        'smallInteger',
-        'softDeletes',
-        'string',
-        'string',
-        'text',
-        'time',
-        'timeTz',
-        'tinyInteger',
-        'timestamp',
-        'timestampTz',
-        'timestamps',
-        'timestampsTz',
-        'unsignedBigInteger',
-        'unsignedInteger',
-        'unsignedMediumInteger',
-        'unsignedSmallInteger',
-        'unsignedTinyInteger',
-        'uuid',
-    ];
-
-    /**
-     * [$columnModifiers description].
-     * @var [type]
-     */
-    protected $columnModifiers = [
-        'after',
-        'comment',
-        'default',
-        'first',
-        'nullable',
-        'storedAs',
-        'unsigned',
-        'virtualAs',
-    ];
 
     /**
      * Get the destination class path.

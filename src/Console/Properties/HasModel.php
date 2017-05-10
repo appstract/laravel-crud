@@ -8,7 +8,7 @@ trait HasModel
      * [getModelInput description].
      * @return [type] [description]
      */
-    protected function getModelInput()
+    public function getModelInput()
     {
         return $this->hasArgument('model')
             ? $this->argument('model')
@@ -28,7 +28,10 @@ trait HasModel
 
         $model->namespaced = 'App\\'.$name;
         $model->class = class_basename($model->namespaced);
-        $model->plural = strtolower(str_plural($model->class));
+        $model->singular = strtolower($model->class);
+        $model->plural = str_plural($model->singular);
+        $model->Singular = ucfirst($model->singular);
+        $model->Plural = ucfirst($model->plural);
 
         return $model;
     }

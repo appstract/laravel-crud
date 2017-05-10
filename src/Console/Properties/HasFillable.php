@@ -8,7 +8,7 @@ trait HasFillable
      * [getTableNameInput description].
      * @return [type] [description]
      */
-    protected function getFillableInput()
+    public function getFillableInput()
     {
         return $this->hasArgument('fillable')
             ? $this->argument('fillable')
@@ -20,7 +20,7 @@ trait HasFillable
      *
      * @return string
      */
-    protected function getFillable()
+    public function getFillable()
     {
         if (! $this->getFillableInput()) {
             return "['']";

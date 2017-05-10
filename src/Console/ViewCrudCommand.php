@@ -4,44 +4,74 @@ namespace Appstract\Crud\Console;
 
 class ViewCrudCommand extends GeneratorCommand
 {
+    use Properties\HasFields,
+        Properties\HasModel;
+
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $signature = 'crud:views
-                            {name : Name of the model.}
+    protected $signature = 'crud:view
+                            {name : Name of the view}
+                            {--model= : Name of the model}
                             {--fields= : Fields}
                             {--p|prompt : Run in prompt}';
 
     /**
-     * The console command description.
+     * The type of class being generated.
      *
      * @var string
      */
-    protected $description = 'Create a new CRUD view';
+    protected $type = 'View';
 
     /**
-     * [$views description].
-     * @var [type]
-     */
-    protected $views = [
-        'index'  => \Appstract\Crud\Console\View\IndexCommand::class,
-        'create' => \Appstract\Crud\Console\View\CreateCommand::class,
-        'show'   => \Appstract\Crud\Console\View\ShowCommand::class,
-        'edit'   => \Appstract\Crud\Console\View\EditCommand::class,
-    ];
-
-    /**
-     * Execute the console command.
+     * Build the class with the given name.
      *
-     * @return void
+     * @param  string  $name
+     * @return string
      */
-    public function fire()
+    protected function replace($name)
     {
-        foreach ($this->views as $view => $command) {
-            //
-        }
+        $builder = $this->getViewBuilder();
+
+        $this->replace = (new $builder($this))->getReplacers();
+
+        // dd('stop');
+
+        return parent::replace($name);
+    }
+
+    /**
+     * Get the stub file for the generator.
+     *
+     * @return string
+     */
+    protected function getStub()
+    {
+        return __DIR__.'/stubs/views/'.strtolower($this->getNameInput()).'.stub';
+    }
+
+    /**
+     * Get the destination class path.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    protected function getPath($name)
+    {
+        return $this->laravel->resourcePath().'/views/'.$this->getModel()->plural.'/'.$this->getNameInput().'.blade.php';
+    }
+
+    /**
+     * Get classname of the builder.
+     *
+     * @param  [type] $name [description]
+     * @return [type]       [description]
+     */
+    protected function getViewBuilder()
+    {
+        return 'Appstract\\Crud\\Console\\Views\\'.ucfirst($this->getNameInput());
     }
 
     /**

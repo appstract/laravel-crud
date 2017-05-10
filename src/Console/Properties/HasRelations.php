@@ -8,7 +8,7 @@ trait HasRelations
      * [getTableNameInput description].
      * @return [type] [description]
      */
-    protected function getRelationsInput()
+    public function getRelationsInput()
     {
         return $this->hasArgument('relations')
             ? $this->argument('relations')
@@ -21,7 +21,7 @@ trait HasRelations
      *
      * @return string
      */
-    protected function getRelations()
+    public function getRelations()
     {
         $relations = $this->getRelationsInput() ? explode(';', $this->getRelationsInput()) : [];
 

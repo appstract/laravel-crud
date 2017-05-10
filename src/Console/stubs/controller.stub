@@ -2,7 +2,7 @@
 
 namespace {{{namespace}}};
 
-use {{{fullModelClass}}};
+use {{{modelNamespaced}}};
 use Illuminate\Http\Request;
 use {{{rootNamespace}}}Http\Controllers\Controller;
 
@@ -48,7 +48,7 @@ class {{{class}}} extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \{{{fullModelClass}}}  ${{{modelSingular}}}
+     * @param  \{{{modelNamespaced}}}  ${{{modelSingular}}}
      * @return \Illuminate\Http\Response
      */
     public function show({{{modelClass}}} ${{{modelSingular}}})
@@ -61,7 +61,7 @@ class {{{class}}} extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \{{{fullModelClass}}}  ${{{modelSingular}}}
+     * @param  \{{{modelNamespaced}}}  ${{{modelSingular}}}
      * @return \Illuminate\Http\Response
      */
     public function edit({{{modelClass}}} ${{{modelSingular}}})
@@ -75,7 +75,7 @@ class {{{class}}} extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \{{{fullModelClass}}}  ${{{modelSingular}}}
+     * @param  \{{{modelNamespaced}}}  ${{{modelSingular}}}
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, {{{modelClass}}} ${{{modelSingular}}})
@@ -90,7 +90,7 @@ class {{{class}}} extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \{{{fullModelClass}}}  ${{{modelSingular}}}
+     * @param  \{{{modelNamespaced}}}  ${{{modelSingular}}}
      * @return \Illuminate\Http\Response
      */
     public function destroy({{{modelClass}}} ${{{modelSingular}}})

@@ -8,7 +8,7 @@ trait HasPrimaryKey
      * [getTableNameInput description].
      * @return [type] [description]
      */
-    protected function getPrimaryKeyInput()
+    public function getPrimaryKeyInput()
     {
         return $this->hasArgument('primary')
             ? $this->argument('primary')
@@ -20,7 +20,7 @@ trait HasPrimaryKey
      *
      * @return string
      */
-    protected function getPrimaryKey()
+    public function getPrimaryKey()
     {
         return $this->getPrimaryKeyInput();
     }

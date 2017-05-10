@@ -78,10 +78,19 @@ class GeneratorCommand extends Command
      */
     protected function replace($name)
     {
+        $model = $this->getModel();
+
         $this->replace = array_merge($this->replace, [
             '{{{namespace}}}' => $this->getNamespace($name),
             '{{{rootNamespace}}}' => $this->laravel->getNamespace(),
             '{{{class}}}' => str_replace($this->getNamespace($name).'\\', '', $name),
+
+            '{{{modelNamespaced}}}' => $model->namespaced,
+            '{{{modelClass}}}' => $model->class,
+            '{{{modelSingular}}}' => $model->singular,
+            '{{{modelPlural}}}' => $model->plural,
+            '{{{modelSingularCapitalized}}}' => $model->Singular,
+            '{{{modelPluralCapitalized}}}' => $model->Plural,
         ]);
 
         return str_replace(
