@@ -24,7 +24,7 @@
                 <div class="table-responsive">
                     <table class="table table-borderless">
                         <tbody>
-
+                            {{{tableBodyRows}}}
                         </tbody>
                     </table>
                 </div>

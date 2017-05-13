@@ -18,6 +18,12 @@
                         @endforeach
                     </ul>
                 @endif
+
+                <form method="POST" action="{{{modelPlural}}}.store">
+                    {{ csrf_field() }}
+
+                    {{{fields}}}
+                </form>
             </div>
         </div>
     </div>

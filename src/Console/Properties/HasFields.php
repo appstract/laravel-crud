@@ -32,7 +32,7 @@ trait HasFields
             $array[$field->get(0)] = $field->get(1);
         }
 
-        return $array;
+        return collect($array);
     }
 
     /**

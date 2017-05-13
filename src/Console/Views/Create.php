@@ -11,7 +11,20 @@ class Create extends View
     protected function build()
     {
         $this->replace = [
-            '{{{modelPluralCapitalized}}}' => $this->getCommand()->getModel()->Plural,
+            '{{{fields}}}' => $this->getFields(),
         ];
+    }
+
+    /**
+     * [getFields description]
+     * @return [type] [description]
+     */
+    protected function getFields()
+    {
+        $code = $this->getCommand()->getFields()->map(function($type, $name) {
+            return (new Fields\Field($type, $name))->getCode();
+        });
+
+        dd($code);
     }
 }

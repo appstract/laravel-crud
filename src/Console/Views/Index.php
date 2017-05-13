@@ -22,13 +22,9 @@ class Index extends View
      */
     protected function getTableHeadColumns()
     {
-        $code = '';
-
-        foreach($this->getCommand()->getFields() as $name => $type) {
-            $code .= '<th>'.ucfirst($name).'</th>';
-        }
-
-        return $code;
+        return $this->getCommand()->getFields()->map(function($type, $name) {
+            return "<th>".ucfirst($name)."</th>\n";
+        })->values()->implode('');
     }
 
     /**
@@ -39,12 +35,8 @@ class Index extends View
     {
         $model = $this->getCommand()->getModel()->singular;
 
-        $code = '';
-
-        foreach($this->getCommand()->getFields() as $name => $type) {
-            $code .= "<td>{{ \$$model->$name }}</td>\n";
-        }
-
-        return $code;
+        return $this->getCommand()->getFields()->map(function($type, $name) use ($model) {
+            return "<td>{{ \$$model->$name }}</td>\n";
+        })->values()->implode('');
     }
 }
