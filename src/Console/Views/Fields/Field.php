@@ -7,31 +7,31 @@ use Illuminate\Filesystem\Filesystem;
 class Field
 {
     /**
-     * [$type description]
+     * [$type description].
      * @var [type]
      */
     protected $type;
 
     /**
-     * [$name description]
+     * [$name description].
      * @var [type]
      */
     protected $name;
 
     /**
-     * [$code description]
+     * [$code description].
      * @var [type]
      */
     protected $code;
 
     /**
-     * [$files description]
+     * [$files description].
      * @var [type]
      */
     protected $files;
 
     /**
-     * [__construct description]
+     * [__construct description].
      */
     public function __construct($type, $name)
     {
@@ -44,7 +44,7 @@ class Field
     }
 
     /**
-     * [build description]
+     * [build description].
      * @return [type] [description]
      */
     public function build()
@@ -57,7 +57,7 @@ class Field
     }
 
     /**
-     * [getStub description]
+     * [getStub description].
      * @return [type] [description]
      */
     protected function getStub()
@@ -66,7 +66,7 @@ class Field
     }
 
     /**
-     * [getCode description]
+     * [getCode description].
      * @return [type] [description]
      */
     public function getCode()

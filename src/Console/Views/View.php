@@ -5,19 +5,19 @@ namespace Appstract\Crud\Console\Views;
 abstract class View
 {
     /**
-     * [$replace description]
+     * [$replace description].
      * @var array
      */
     protected $replace = [];
 
     /**
-     * [$command description]
+     * [$command description].
      * @var [type]
      */
     protected $command;
 
     /**
-     * [__construct description]
+     * [__construct description].
      * @param [type] $command [description]
      */
     public function __construct($command)
@@ -28,12 +28,12 @@ abstract class View
     }
 
     /**
-     * [build description]
+     * [build description].
      */
     abstract protected function build();
 
     /**
-     * [getCommand description]
+     * [getCommand description].
      * @return [type] [description]
      */
     protected function getCommand()
@@ -42,7 +42,7 @@ abstract class View
     }
 
     /**
-     * [getReplacers description]
+     * [getReplacers description].
      * @return [type] [description]
      */
     public function getReplacers()
