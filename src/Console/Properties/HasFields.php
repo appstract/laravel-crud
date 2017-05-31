@@ -26,7 +26,7 @@ trait HasFields
 
         $array = [];
 
-        foreach($fields as $field) {
+        foreach ($fields as $field) {
             $field = collect(explode('#', $field));
 
             $array[$field->get(0)] = $field->get(1);

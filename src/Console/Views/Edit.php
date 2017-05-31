@@ -5,7 +5,7 @@ namespace Appstract\Crud\Console\Views;
 class Edit extends View
 {
     /**
-     * [build description]
+     * [build description].
      * @return [type] [description]
      */
     protected function build()

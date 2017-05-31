@@ -5,7 +5,7 @@ namespace Appstract\Crud\Console\Views;
 class Show extends View
 {
     /**
-     * [build description]
+     * [build description].
      * @return [type] [description]
      */
     protected function build()
@@ -16,16 +16,16 @@ class Show extends View
     }
 
     /**
-     * [getTableBodyRows description]
+     * [getTableBodyRows description].
      * @return [type] [description]
      */
     protected function getTableBodyRows()
     {
         $model = $this->getCommand()->getModel()->singular;
 
-        return $this->getCommand()->getFields()->map(function($type, $name) use ($model) {
+        return $this->getCommand()->getFields()->map(function ($type, $name) use ($model) {
             return "<tr>\n".
-                "<th>".ucfirst($name)."</th>\n".
+                '<th>'.ucfirst($name)."</th>\n".
                 "<td>{{ \$$model->$name }}</td>\n".
             "</tr>\n";
         })->values()->implode('');

@@ -5,7 +5,7 @@ namespace Appstract\Crud\Console\Views;
 class Create extends View
 {
     /**
-     * [build description]
+     * [build description].
      * @return [type] [description]
      */
     protected function build()
@@ -16,12 +16,12 @@ class Create extends View
     }
 
     /**
-     * [getFields description]
+     * [getFields description].
      * @return [type] [description]
      */
     protected function getFields()
     {
-        $code = $this->getCommand()->getFields()->map(function($type, $name) {
+        $code = $this->getCommand()->getFields()->map(function ($type, $name) {
             return (new Fields\Field($type, $name))->getCode();
         });
 
