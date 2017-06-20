@@ -4,7 +4,8 @@ namespace Appstract\Crud\Console;
 
 class ModelCrudCommand extends GeneratorCommand
 {
-    use Properties\HasPrimaryKey,
+    use Properties\HasModel,
+        Properties\HasPrimaryKey,
         Properties\HasTableName,
         Properties\HasFillable,
         Properties\HasRelations;

@@ -71,6 +71,17 @@ class GeneratorCommand extends Command
     }
 
     /**
+     * Parse name.
+     *
+     * @param  [type] $name [description]
+     * @return [type]       [description]
+     */
+    protected function parseName($name)
+    {
+        return $this->qualifyClass($name);
+    }
+
+    /**
      * Build the class with the given name.
      *
      * @param  string  $name

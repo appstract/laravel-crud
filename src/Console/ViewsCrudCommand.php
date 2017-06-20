@@ -42,7 +42,7 @@ class ViewsCrudCommand extends Command
      *
      * @return void
      */
-    public function fire()
+    public function handle()
     {
         foreach ($this->views as $view) {
             Artisan::call('crud:view', [

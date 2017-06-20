@@ -50,8 +50,18 @@ class Field
     public function build()
     {
         $this->code = str_replace(
-            '{{{name}}}',
-            $this->name,
+            [
+                '{{{id}}}',
+                '{{{type}}}',
+                '{{{label}}}',
+                '{{{placeholder}}}'
+            ],
+            [
+                $this->name,
+                $this->type,
+                ucfirst($this->name),
+                ucfirst($this->name)
+            ],
             $this->files->get($this->getStub())
         );
     }
@@ -62,7 +72,16 @@ class Field
      */
     protected function getStub()
     {
-        return __DIR__.'/../../stubs/views/fields/'.strtolower($this->type).'.stub';
+        return __DIR__.'/../../stubs/views/fields/'.$this->getStubName().'.stub';
+    }
+
+    /**
+     * [getStubName description]
+     * @return [type] [description]
+     */
+    protected function getStubName()
+    {
+        return $this->type;
     }
 
     /**

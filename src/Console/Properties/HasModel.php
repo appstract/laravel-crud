@@ -10,9 +10,12 @@ trait HasModel
      */
     public function getModelInput()
     {
+        // @TODO: we/I can do better!
         return $this->hasArgument('model')
             ? $this->argument('model')
-            : ($this->option('model') ?: null);
+            : ($this->hasOption('model')
+                ? $this->option('model')
+                : $this->argument('name'));
     }
 
     /**
