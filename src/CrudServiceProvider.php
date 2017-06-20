@@ -4,6 +4,8 @@ namespace Appstract\Crud;
 
 use Illuminate\Support\ServiceProvider;
 
+use Appstract\Crud\Console;
+
 class CrudServiceProvider extends ServiceProvider
 {
     /**
@@ -13,11 +15,11 @@ class CrudServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                \Appstract\Crud\Console\ModelCrudCommand::class,
-                \Appstract\Crud\Console\ControllerCrudCommand::class,
-                \Appstract\Crud\Console\MigrationCrudCommand::class,
-                \Appstract\Crud\Console\ViewsCrudCommand::class,
-                \Appstract\Crud\Console\ViewCrudCommand::class,
+                Console\ModelCrudCommand::class,
+                Console\ControllerCrudCommand::class,
+                Console\MigrationCrudCommand::class,
+                Console\ViewsCrudCommand::class,
+                Console\ViewCrudCommand::class,
             ]);
         }
     }

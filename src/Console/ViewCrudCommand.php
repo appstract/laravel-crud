@@ -37,8 +37,6 @@ class ViewCrudCommand extends GeneratorCommand
 
         $this->replace = (new $builder($this))->getReplacers();
 
-        // dd('stop');
-
         return parent::replace($name);
     }
 
