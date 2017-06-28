@@ -3,7 +3,6 @@
 namespace Appstract\Crud;
 
 use Illuminate\Support\ServiceProvider;
-use Appstract\Crud\Console;
 
 class CrudServiceProvider extends ServiceProvider
 {
