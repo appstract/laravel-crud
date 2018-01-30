@@ -54,13 +54,13 @@ class Field
                 '{{{id}}}',
                 '{{{type}}}',
                 '{{{label}}}',
-                '{{{placeholder}}}'
+                '{{{placeholder}}}',
             ],
             [
                 $this->name,
                 $this->type,
                 ucfirst($this->name),
-                ucfirst($this->name)
+                ucfirst($this->name),
             ],
             $this->files->get($this->getStub())
         );
@@ -76,7 +76,7 @@ class Field
     }
 
     /**
-     * [getStubName description]
+     * [getStubName description].
      * @return [type] [description]
      */
     protected function getStubName()
